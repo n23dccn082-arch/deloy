@@ -20,7 +20,7 @@ export default function TaskDetails() {
   useEffect(() => {
     const fetchTask = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/api/tasks/${taskId}?userId=${user?.id}&role=${user?.role}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/tasks/${taskId}?userId=${user?.id}&role=${user?.role}`);
         setTask(response.data);
       } catch (error) {
         console.error('Failed to fetch task:', error);
@@ -144,7 +144,7 @@ export default function TaskDetails() {
                   currentUser={user}
                   onDelete={async (commentId) => {
                     try {
-                      await axios.delete(`http://localhost:8080/api/tasks/comments/${commentId}`);
+                      await axios.delete(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/tasks/comments/${commentId}`);
                       setTask({ ...task, comments: task.comments.filter((c: any) => c.id !== commentId) });
                     } catch (err) {
                       console.error("Failed to delete comment", err);
@@ -176,7 +176,7 @@ export default function TaskDetails() {
                   currentUser={user}
                   onDelete={async (attachmentId) => {
                     try {
-                      await axios.delete(`http://localhost:8080/api/tasks/attachments/${attachmentId}`);
+                      await axios.delete(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/tasks/attachments/${attachmentId}`);
                       setTask({ ...task, attachments: task.attachments.filter((a: any) => a.id !== attachmentId) });
                     } catch (err) {
                       console.error("Failed to delete attachment", err);

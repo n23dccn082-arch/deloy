@@ -23,7 +23,7 @@ export default function CreateProjectForm() {
 
   useEffect(() => {
     if (isOpen) {
-      axios.get('http://localhost:8080/api/users')
+      axios.get(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/users`)
         .then(res => {
           const mgrs = res.data.filter((u: any) => u.role === 'TASK_MANAGER');
           setManagers(mgrs);
@@ -44,7 +44,7 @@ export default function CreateProjectForm() {
     setError('');
     
     try {
-      const res = await axios.post('http://localhost:8080/api/projects', {
+      const res = await axios.post(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/projects`, {
         name,
         description,
         priority,
@@ -55,7 +55,7 @@ export default function CreateProjectForm() {
       
       const newProject = res.data;
       
-      await axios.post(`http://localhost:8080/api/projects/${newProject.id}/members`, {
+      await axios.post(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/projects/${newProject.id}/members`, {
         userId: managerId,
         role: 'manager'
       });

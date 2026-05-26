@@ -29,7 +29,7 @@ export default function AttachmentForm({ taskId, onUploadSuccess }: { taskId: st
       reader.onloadend = async () => {
         const base64Url = reader.result as string;
         try {
-          const response = await axios.post(`http://localhost:8080/api/tasks/${taskId}/attachments`, {
+          const response = await axios.post(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/tasks/${taskId}/attachments`, {
             filename: file.name,
             url: base64Url,
             userId: user?.id

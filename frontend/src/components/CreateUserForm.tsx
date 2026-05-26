@@ -25,7 +25,7 @@ export default function CreateUserForm({ onUserCreated }: { onUserCreated: () =>
 
     try {
       const { default: axios } = await import('axios');
-      await axios.post('http://localhost:8080/api/users', {
+      await axios.post(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/users`, {
         name,
         email,
         password,

@@ -22,7 +22,7 @@ export default function ProjectDetails() {
   useEffect(() => {
     if (!projectId) return;
     
-    axios.get(`http://localhost:8080/api/projects/${projectId}?userId=${user?.id}&role=${user?.role}`)
+    axios.get(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/projects/${projectId}?userId=${user?.id}&role=${user?.role}`)
       .then(res => {
         const data = res.data;
         // Fallback for members and tasks if backend doesn't populate them yet

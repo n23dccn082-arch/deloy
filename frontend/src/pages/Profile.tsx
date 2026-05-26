@@ -23,7 +23,7 @@ export default function Profile() {
     if (!editName.trim()) return;
     setLoading(true);
     try {
-      await axios.patch(`http://localhost:8080/api/users/${user.id}`, { name: editName });
+      await axios.patch(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/users/${user.id}`, { name: editName });
       login({ ...user, name: editName });
       setIsEditingName(false);
     } catch (err) {
@@ -42,7 +42,7 @@ export default function Profile() {
       const base64Url = reader.result as string;
       setLoading(true);
       try {
-        await axios.patch(`http://localhost:8080/api/users/${user.id}`, { avatar: base64Url });
+        await axios.patch(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/users/${user.id}`, { avatar: base64Url });
         login({ ...user, avatar: base64Url });
       } catch (err) {
         console.error('Failed to update avatar:', err);

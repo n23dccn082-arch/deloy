@@ -37,7 +37,7 @@ export default function CreateTaskForm({ projectId, members = [] }: { projectId:
 
     try {
       const { default: axios } = await import('axios');
-      await axios.post('http://localhost:8080/api/tasks', {
+      await axios.post(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/tasks`, {
         title,
         description,
         priority,

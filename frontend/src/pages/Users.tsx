@@ -27,7 +27,7 @@ export default function UsersPage() {
   const fetchUsers = async () => {
     try {
       const { default: axios } = await import('axios');
-      const response = await axios.get('http://localhost:8080/api/users');
+      const response = await axios.get(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/users`);
       setUsers(response.data);
     } catch (err) {
       setError('Lỗi khi tải danh sách nhân viên');
@@ -42,7 +42,7 @@ export default function UsersPage() {
     setLoading(true);
     try {
       const { default: axios } = await import('axios');
-      await axios.patch(`http://localhost:8080/api/users/${userId}/role`, { role });
+      await axios.patch(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/users/${userId}/role`, { role });
       setUsers(prevUsers => prevUsers.map(u => u.id === userId ? { ...u, role } : u));
     } catch (err) {
       setError('Lỗi khi cập nhật vai trò');
@@ -56,7 +56,7 @@ export default function UsersPage() {
     setLoading(true);
     try {
       const { default: axios } = await import('axios');
-      await axios.delete(`http://localhost:8080/api/users/${userId}`);
+      await axios.delete(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/users/${userId}`);
       setUsers(prevUsers => prevUsers.filter(u => u.id !== userId));
     } catch (err) {
       setError('Lỗi khi xóa tài khoản');
@@ -72,7 +72,7 @@ export default function UsersPage() {
     setLoading(true);
     try {
       const { default: axios } = await import('axios');
-      await axios.patch(`http://localhost:8080/api/users/${userId}`, { name: newName.trim() });
+      await axios.patch(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/users/${userId}`, { name: newName.trim() });
       setUsers(prevUsers => prevUsers.map(u => u.id === userId ? { ...u, name: newName.trim() } : u));
     } catch (err) {
       setError('Lỗi khi cập nhật tên');
@@ -89,7 +89,7 @@ export default function UsersPage() {
     setError('');
     try {
       const { default: axios } = await import('axios');
-      await axios.patch(`http://localhost:8080/api/users/${userId}`, { email: newEmail.trim() });
+      await axios.patch(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/users/${userId}`, { email: newEmail.trim() });
       setUsers(prevUsers => prevUsers.map(u => u.id === userId ? { ...u, email: newEmail.trim() } : u));
     } catch (err: any) {
       if (err.response?.data?.error === 'Email is already in use') {
@@ -110,7 +110,7 @@ export default function UsersPage() {
     setError('');
     try {
       const { default: axios } = await import('axios');
-      await axios.patch(`http://localhost:8080/api/users/${userId}`, { password: newPassword });
+      await axios.patch(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/users/${userId}`, { password: newPassword });
       alert('Đã cập nhật mật khẩu thành công!');
     } catch (err) {
       setError('Lỗi khi cập nhật mật khẩu');

@@ -16,7 +16,7 @@ export default function TasksPage() {
 
   useEffect(() => {
     if (!user) return;
-    fetch(`http://localhost:8080/api/tasks?userId=${user.id}&role=${user.role}`)
+    fetch(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/tasks?userId=${user.id}&role=${user.role}`)
       .then(res => res.json())
       .then(data => {
         setTasks(data);

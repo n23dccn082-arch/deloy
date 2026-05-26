@@ -15,7 +15,7 @@ export default function ReportsPage() {
 
   useEffect(() => {
     if (!user) return;
-    axios.get(`http://localhost:8080/api/dashboard/stats?userId=${user.id}&role=${user.role}`)
+    axios.get(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/dashboard/stats?userId=${user.id}&role=${user.role}`)
       .then(response => {
         setData(response.data);
         setLoading(false);

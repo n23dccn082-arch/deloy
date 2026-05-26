@@ -18,7 +18,7 @@ export default function ProjectsPage() {
   const userRole = user?.role || 'MEMBER';
 
   useEffect(() => {
-    fetch(`http://localhost:8080/api/projects?userId=${user?.id}&role=${user?.role}`)
+    fetch(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/projects?userId=${user?.id}&role=${user?.role}`)
       .then(res => res.json())
       .then(data => {
         // Map the backend data to the frontend structure

@@ -31,14 +31,14 @@ export default function EditTaskForm({ taskId, projectId, currentStatus, current
   useEffect(() => {
     import('axios').then(({ default: axios }) => {
       if (projectId) {
-        axios.get(`http://localhost:8080/api/projects/${projectId}`).then(res => {
+        axios.get(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/projects/${projectId}`).then(res => {
           const members = res.data.members
             .filter((m: any) => m.role === 'member' && m.user)
             .map((m: any) => m.user);
           setUsers(members);
         }).catch(err => console.error("Failed to fetch project members", err))
       } else {
-        axios.get('http://localhost:8080/api/users').then(res => {
+        axios.get(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/users`).then(res => {
           setUsers(res.data)
         }).catch(err => console.error("Failed to fetch users", err))
       }
@@ -67,7 +67,7 @@ export default function EditTaskForm({ taskId, projectId, currentStatus, current
 
     try {
       const { default: axios } = await import('axios');
-      await axios.put(`http://localhost:8080/api/tasks/${taskId}`, {
+      await axios.put(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/tasks/${taskId}`, {
         status: finalStatus,
         priority,
         deadline,

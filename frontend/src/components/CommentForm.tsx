@@ -22,7 +22,7 @@ export default function CommentForm({ taskId, onCommentSuccess }: { taskId: stri
 
     setLoading(true)
     try {
-      const response = await axios.post(`http://localhost:8080/api/tasks/${taskId}/comments`, {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/tasks/${taskId}/comments`, {
         content,
         userId: user?.id
       })

@@ -24,7 +24,7 @@ export default function AddMemberForm({ projectId }: { projectId: string }) {
 
   useEffect(() => {
     import('axios').then(({ default: axios }) => {
-      axios.get('http://localhost:8080/api/users').then(res => {
+      axios.get(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/users`).then(res => {
         let filteredUsers = res.data;
         if (isAdmin) {
           filteredUsers = filteredUsers.filter((u: any) => u.role === 'TASK_MANAGER');
@@ -51,7 +51,7 @@ export default function AddMemberForm({ projectId }: { projectId: string }) {
 
     try {
       const { default: axios } = await import('axios');
-      await axios.post(`http://localhost:8080/api/projects/${projectId}/members`, {
+      await axios.post(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/projects/${projectId}/members`, {
         userId,
         role
       });

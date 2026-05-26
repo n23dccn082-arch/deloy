@@ -20,7 +20,7 @@ export default function Login() {
 
     try {
       const { default: axios } = await import('axios');
-      const response = await axios.post('http://localhost:8080/api/auth/login', { email, password });
+      const response = await axios.post(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/auth/login`, { email, password });
       
       const userData = response.data.user;
       if (userData) {

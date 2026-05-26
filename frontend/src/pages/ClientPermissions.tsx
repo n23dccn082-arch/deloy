@@ -34,8 +34,8 @@ export default function ClientPermissions() {
     setLoading(true);
     try {
       const [usersRes, projectsRes] = await Promise.all([
-        axios.get('http://localhost:8080/api/users'),
-        axios.get('http://localhost:8080/api/projects')
+        axios.get(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/users`),
+        axios.get(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/projects`)
       ]);
       const allUsers = usersRes.data as User[];
       setClients(allUsers.filter(u => u.role === 'CLIENT'));
@@ -58,12 +58,12 @@ export default function ClientPermissions() {
     try {
       if (hasAccess) {
         // Remove access
-        await axios.delete(`http://localhost:8080/api/projects/${projectId}/members`, {
+        await axios.delete(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/projects/${projectId}/members`, {
           data: { userId: selectedClient.id }
         });
       } else {
         // Grant access
-        await axios.post(`http://localhost:8080/api/projects/${projectId}/members`, {
+        await axios.post(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/projects/${projectId}/members`, {
           userId: selectedClient.id,
           role: 'VIEWER' // Default role for client
         });

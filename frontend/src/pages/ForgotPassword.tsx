@@ -36,7 +36,7 @@ export default function ForgotPassword() {
     
     try {
       // Gọi API Backend Java
-      await axios.post('http://localhost:8080/api/auth/forgot-password', { email });
+      await axios.post(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/auth/forgot-password`, { email });
       setStep(2);
       setResendTimer(60); // Bắt đầu đếm ngược 60s
       setOtp('');
@@ -59,7 +59,7 @@ export default function ForgotPassword() {
     setLoading(true);
     try {
       // Gọi API Backend Java xác thực OTP
-      await axios.post('http://localhost:8080/api/auth/verify-otp', { email, otp });
+      await axios.post(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/auth/verify-otp`, { email, otp });
       setStep(3);
     } catch (err: any) {
       setError(err.response?.data?.error || 'Mã OTP không chính xác hoặc đã hết hạn.');
@@ -85,7 +85,7 @@ export default function ForgotPassword() {
     setLoading(true);
     try {
       // Gọi API Backend Java đổi mật khẩu
-      await axios.post('http://localhost:8080/api/auth/reset-password', { email, newPassword });
+      await axios.post(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/auth/reset-password`, { email, newPassword });
       navigate('/login?reset=success');
     } catch (err: any) {
       setError(err.response?.data?.error || 'Đã xảy ra lỗi khi đặt lại mật khẩu.');
