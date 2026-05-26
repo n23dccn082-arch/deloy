@@ -45,6 +45,36 @@ export default function EditTaskForm({ taskId, projectId, currentStatus, current
     })
   }, [projectId])
 
+  const handleCancelTask = async () => {
+    if (!window.confirm("Bạn có chắc chắn muốn hủy nhiệm vụ này?")) return;
+    setError('');
+    setSuccess('');
+    setLoading(true);
+
+    try {
+      const { default: axios } = await import('axios');
+      await axios.put(`${import.meta.env.VITE_API_URL || "http://localhost:8080"}/api/tasks/${taskId}`, {
+        status: 'CANCELLED',
+        priority,
+        deadline,
+        assigneeId,
+        progress: 0
+      });
+      setStatus('CANCELLED');
+      setProgress(0);
+      setSuccess('Đã hủy nhiệm vụ thành công!');
+      if (onUpdateSuccess) {
+        const selectedUser = users.find(u => u.id === assigneeId);
+        onUpdateSuccess({ status: 'CANCELLED', priority, deadline, assignee: selectedUser || null, progress: 0 });
+      }
+    } catch (err) {
+      console.error(err);
+      setError('Hủy nhiệm vụ thất bại!');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     setError('')
@@ -153,9 +183,21 @@ export default function EditTaskForm({ taskId, projectId, currentStatus, current
         </div>
         {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
         {success && <p className="text-sm text-green-600 dark:text-green-400">{success}</p>}
-        <button type="submit" disabled={loading} className="inline-flex items-center justify-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 disabled:opacity-50">
-          {loading ? 'Đang cập nhật...' : 'Cập nhật nhiệm vụ'}
-        </button>
+        <div className="flex space-x-3">
+          <button type="submit" disabled={loading} className="inline-flex items-center justify-center rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 disabled:opacity-50">
+            {loading ? 'Đang cập nhật...' : 'Cập nhật nhiệm vụ'}
+          </button>
+          {!isMember && status !== 'CANCELLED' && (
+            <button 
+              type="button" 
+              onClick={handleCancelTask}
+              disabled={loading} 
+              className="inline-flex items-center justify-center rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-700 disabled:opacity-50"
+            >
+              Hủy nhiệm vụ
+            </button>
+          )}
+        </div>
       </form>
     </div>
   )
