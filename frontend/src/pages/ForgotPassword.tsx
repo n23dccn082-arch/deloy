@@ -5,7 +5,7 @@ import { ArrowLeft, Mail, KeyRound, CheckCircle2, Timer, RefreshCw } from 'lucid
 
 export default function ForgotPassword() {
   const [step, setStep] = useState(1);
-  const [email, setEmail] = useState('binpro015@gmail.com');
+  const [email, setEmail] = useState('');
   const [otp, setOtp] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
